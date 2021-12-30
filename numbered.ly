@@ -82,7 +82,9 @@ sanbanOff = {
           ;  (music-is-of-type? item 'event-chord)
           ;)
           (let* ((dur (ly:moment-main (ly:music-duration-length item)))
-                 (logduration (floor (log2 dur)))
+                 (logduration
+                   (if (= dur 1/12) -3 (floor (log2 dur)))
+                 )
                  (bc (max (- -2 logduration) 0))
                  (altleft (make-music
                            'ContextSpeccedMusic
@@ -194,19 +196,32 @@ numberedMusic =
 
           ;; CHORD
           ((music-is-of-type? m 'event-chord)
-           (let*
-            ((note-list (ly:music-property m 'elements)
+            (let*
+              (
+                (note-list (ly:music-property m 'elements))
+                (chord-size (length note-list))
+                (order-list (enumerate note-list 0))
+              )
+              (begin
+                (map
+                  (lambda (note order)
+                    (begin
+                      (ly:music-set-property! note 'numbered-order order)
+                      (ly:music-set-property! note 'numbered-chord-size chord-size)
+                      (ly:music-set-property! note 'articulations
+                        (map
+                          (lambda (artic)
+                            (begin
+                              (ly:music-set-property! artic 'numbered-order order)
+                              (ly:music-set-property! artic 'numbered-chord-size chord-size)
+                              artic
+                            )
+                          )
+                          (ly:music-property note 'articulations)
                         )
-             (chord-size (length note-list))
-             (order-list (enumerate note-list 0)))
-            (begin
-             (map (lambda (note order) (begin
-                                        (ly:music-set-property! note 'numbered-order order)
-                                        (ly:music-set-property! note 'numbered-chord-size chord-size)
-                                        (map (lambda (artic) (begin
-                                                              (ly:music-set-property! artic 'numbered-order order)
-                                                              (ly:music-set-property! artic 'numbered-chord-size chord-size))) (ly:music-property m 'articulations))
-                                        )) note-list order-list)
+                      )
+                    )
+                  ) note-list order-list)
              )))
           ;; NOTE
           ((music-is-of-type? m 'note-event)
@@ -300,7 +315,7 @@ numberedMusic =
                        (ly:pitch-notename grob-pitch) #f))
                   (numbered-rest (ly:event-property event 'numbered-rest))
                   (numbered-order (ly:event-property event 'numbered-order))
-                  (numbered-offset (- (* numbered-order 2.3) 1))
+                  (numbered-offset (- (* numbered-order 2.5) 1))
                   (numbered-chord-size (ly:event-property event 'numbered-chord-size))
                   (glyph-string
                    ;; check numbered-rest first, because apparently
@@ -337,6 +352,7 @@ numberedMusic =
       ;; make sure \omit is not in effect (stencil is not #f)
       (if (ly:grob-property-data grob 'stencil)
           (let* ((glyph-name (ly:grob-property grob 'glyph-name))
+                  (event (event-cause grob))
                  (padding 0.3)
                  ;; TODO: width is hard-coded, would be better to match note-head width
                  ;; TODO: stencil creation could be coded better
@@ -352,7 +368,8 @@ numberedMusic =
                            ((string= glyph-name "flags.d6") flag-four)
                            ((string= glyph-name "flags.d7") flag-five)
                            (else empty-stencil))))
-
+            ; (display-scheme-music event)
+            ; (display glyph-name)
             (ly:grob-set-property! grob 'stencil new-stl)
             (ly:grob-set-property! grob 'Y-offset -1.3)
             ;; TODO: are these needed?
@@ -370,22 +387,22 @@ numberedMusic =
               (descents (min 0 (+ 2 logduration)))
               (step 0.4))
          (+ -1.5 (* descents step)))
-       (let* ((fontsize (if (= numbered-chord-size 1) 2 1.2))
+       (let* ((fontsize 2.5)
               (step 0.3))
          (if (= direction 1)
-             (+ -1 (* fontsize (+ 1 numbered-order)) (* 2 padding abs-octave))
-             (+ -1 (* fontsize (+ 0 numbered-order)))
+             (+ -1.6 (* fontsize (+ 1 numbered-order)) (* 2 padding abs-octave))
+             (+ -1.3 (* fontsize numbered-order))
              )
          )
        )
    )
 
-#(define Numbered_octave_engraver
-   (make-engraver
+#(define Numbered_articulation_engraver
+  (make-engraver
     (acknowledgers
-     ((script-interface engraver grob source-engraver)
+      ((script-interface engraver grob source-engraver)
       ;; make sure \omit is not in effect (stencil is not #f)
-      (if (ly:grob-property-data grob 'stencil)
+        (if (ly:grob-property-data grob 'stencil)
           (let* ((staff-context (ly:translator-context engraver))
                  (event (event-cause grob))
                  (articulation-type (ly:event-property event 'articulation-type))
@@ -394,7 +411,9 @@ numberedMusic =
                  (numbered-chord-size (ly:event-property event 'numbered-chord-size))
                  (numbered-order (ly:event-property event 'numbered-order)))
 
-            (if (equal? "staccato" articulation-type)
+            (cond
+              (
+                (equal? "staccato" articulation-type)
                 (let*
                  (
                    (padding 0.3)
@@ -416,9 +435,31 @@ numberedMusic =
                  (begin
                   ; (display-scheme-music event)
                   (ly:grob-set-property! grob 'stencil stl)
-                  (ly:grob-set-property! grob 'Y-offset (calc-octave-offset direction duration numbered-chord-size numbered-order abs-octave))
+                  (let ((result (calc-octave-offset direction duration numbered-chord-size numbered-order abs-octave)))
+                    (ly:grob-set-property! grob 'Y-offset result)
+                    ;(display direction)(newline)
+                    ;(display abs-octave)(newline)
+                    ;(display numbered-order)(newline)
+                    ;(display result)(newline)
                   )
-                 ))
+
+                  )
+                )
+              )
+              (
+                (equal? "flageolet" articulation-type)
+                (begin
+                  (ly:grob-set-property! grob 'X-extent '(-0.1 . 0.1))
+                  (ly:grob-set-property! grob 'Y-extent '(-0.1 . 0.1))
+                )
+              )
+              (
+                (equal? "fermata" articulation-type)
+                (begin
+                  (ly:grob-set-property! grob 'Y-offset 2)
+                )
+              )
+            )
 
             ))))))
 
@@ -545,7 +586,7 @@ numberedMusic =
     \consists \Numbered_flag_engraver
     \consists \Numbered_rest_engraver
     % \consists \Numbered_key_engraver
-    \consists \Numbered_octave_engraver
+    \consists \Numbered_articulation_engraver
 
     \override Beam.after-line-breaking = #numbered-beam-adjust
     \override KeySignature.break-visibility = ##(#f #f #f)
@@ -566,12 +607,18 @@ numberedMusic =
     \override NoteHead.Y-offset = #0
     \override Beam.transparent = ##f
     \override Stem.direction = #DOWN
-    \override Beam.direction = #UP
+    \override Beam.direction = #DOWN
     \override Beam.beam-thickness = #0.1
     \override Beam.positions = #'(-1.3 . -1.3)
     \override Beam.length-fraction = #0.3
     \override Tie.staff-position = #2.5
     \override TupletBracket.bracket-visibility = ##t
+    \override StemTremolo.slope = 1
+    \override StemTremolo.beam-thickness = 0.15
+    \override StemTremolo.beam-width = 1.0
+    \override StemTremolo.X-offset = 2.0
+    \override StemTremolo.Y-offset = -1.5
+    \override StemTremolo.length-fraction = 0.5
     \tupletUp
     \slurUp
     % \hide Stem
