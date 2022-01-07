@@ -16,7 +16,7 @@
 \layout {
   \context {
     \Score {
-      \override MetronomeMark.font-name = "Lilypond Serif, STFangsong"
+      \override MetronomeMark.font-name = "Lilypond Serif, STFangsong, SimFang"
     }
   }
 }
@@ -24,9 +24,9 @@
 \paper {
   #(define fonts
     (set-global-fonts
-     #:roman "Lilypond Serif, Songti SC, SimSun"
-     #:sans "Lilypond Sans Serif, PingFang SC, SimHei"
-     #:typewriter "Lilypond Monospace, Kaiti SC, SimKai"
+     #:roman "Lilypond Serif, Songti SC, STSong, SimSun"
+     #:sans "Lilypond Sans Serif, PingFang SC, STXihei, SimHei"
+     #:typewriter "Lilypond Monospace, Kaiti SC, STKaiti, SimKai"
     ))
 }
 

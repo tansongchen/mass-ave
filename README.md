@@ -1,4 +1,4 @@
-<p style="text-align: center; font-size: 2em">Mass Ave Chinese Orchestra Scores</p>
+<h1 align="center">Mass Ave Chinese Orchestra Scores</h1>
 
 This repository stores the LilyPond source code for Mass Ave Chinese Orchestra. Downloadable PDF version of scores can be found in [Releases](https://github.com/tansongchen/mass-ave/releases). You can also try out compiling them yourself from LilyPond code.
 
@@ -15,7 +15,10 @@ Additionally, if you also have Visual Studio Code installed, it suffices to open
 ## 2. Manual Setup
 
 1. Install LilyPond >= 2.22.0 from https://lilypond.org/download.html (if you are using Linux or macOS, you can also download it via package managers such as `apt` or `brew`);
-2. Check the `main.ly` file that you want to compile, search for `set-global-fonts` and make sure you have at least one font installed in each alternative list; if you don't want to install additional fonts you can simply modify the alternative list to include one of your installed font.
+2. Check the `main.ly` file that you want to compile, search for `set-global-fonts` and make sure you have at least one font installed in each alternative list:
+   1. On Windows, the system preinstalled fonts are enough;
+   2. On macOS, LilyPond is known to have some bug in detecting system fonts, so you may need to install two fonts [here](https://github.com/tansongchen/mass-ave/releases/download/v0.0.1/fonts-mac.zip);
+   3. Else, you may need to install all fonts [here](https://github.com/tansongchen/mass-ave/releases/download/v0.0.1/fonts.zip).
 
 # Compiling
 
