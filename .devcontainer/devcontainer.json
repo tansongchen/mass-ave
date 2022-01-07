@@ -1,0 +1,16 @@
+{
+	"name": "Ubuntu",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	"settings": {
+		"vslilypond.compilation.compileOnSave": false
+	},
+
+	"extensions": [
+		"lhl2617.vslilypond",
+	],
+
+	"remoteUser": "vscode"
+}

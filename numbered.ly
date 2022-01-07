@@ -1,8 +1,8 @@
-\version "2.22.1"
+\version "2.22.0"
 
 sanbanOn = {
   \once \override Score.TimeSignature.stencil = #ly:text-interface::print
-  \once \override Score.TimeSignature.text = \markup{ \fontsize #3 \override #'(font-name . "KaiTi") \bold "サ" }
+  \once \override Score.TimeSignature.text = \markup{ \fontsize #3 \typewriter "サ" }
   \once \override Score.TimeSignature.extra-offset = #'(0 . -1)
   \time 4/4
 }

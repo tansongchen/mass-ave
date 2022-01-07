@@ -1,4 +1,4 @@
-\version "2.22.1"
+\version "2.22.0"
 \language "english"
 \header {
   title = "自由的鸟"
@@ -11,7 +11,24 @@
   instrument = " "
 }
 
-\include "numbered.ly"
+\include "../numbered.ly"
+
+\layout {
+  \context {
+    \Score {
+      \override MetronomeMark.font-name = "Lilypond Serif, STFangsong"
+    }
+  }
+}
+
+\paper {
+  #(define fonts
+    (set-global-fonts
+     #:roman "Lilypond Serif, Songti SC, SimSun"
+     #:sans "Lilypond Sans Serif, PingFang SC, SimHei"
+     #:typewriter "Lilypond Monospace, Kaiti SC, SimKai"
+    ))
+}
 
 keytime = { \key d \major \time 4/4 }
 twice = #(define-music-function (mus) (ly:music?) #{ \repeat unfold 2 { #mus } #})
@@ -136,7 +153,7 @@ pianoDynamics = \new Dynamics { s1*18 \tempo "中板 抒情地" 4 = 96 s1*4\f s1
 erhuI = {
   \relative d''' { R1*10 \twice { b4 a d2 R1 } }
   \repeat volta 2 {
-    \relative d'' { d2.-\markup{ 二胡 I 15 ~ 18 小节仅第二次反复时演奏 } fs8 e d2. fs8 e d2. e4 fs4. e8 d2 }
+    \relative d'' { \footnote #'(2 . 0.2) "二胡 I 15 ~ 18 小节仅第二次反复时演奏" d2. fs8 e d2. fs8 e d2. e4 fs4. e8 d2 }
     % \relative d'' { d4 r d r a r d r d r e r fs r d r }
     \relative d''' {
       \melody
@@ -168,7 +185,7 @@ erhuII = {
     R1*10 R1 b4 a d,2 R1 b'4 a d,2
   }
   \repeat volta 2 {
-    \relative d'' { a2.-\markup{ 二胡 II 15 ~ 18 小节仅第二次反复时演奏 }  d8 b a2. d8 b a2. b4 d4. b8 a2 }
+    \relative d'' { \footnote #'(2 . 0.2) "二胡 II 15 ~ 18 小节仅第二次反复时演奏" a2.  d8 b a2. d8 b a2. b4 d4. b8 a2 }
     % \relative d'' { a4 r a r e r a r a r b r d r b r }
     \relative d'' { \melodyt }
     \relative d'' {
@@ -216,8 +233,8 @@ liuqin = \relative d''' {
     d d d d b b b b gs gs gs gs d'2
     d4. fs8 a,4. d8 gs,4. b8 d2
     \relative d' {
-      e8^\markup{ 柳琴 25 ~ 29 小节第二次反复时高八度演奏 } r r e e r r e d r r d d r r d
-      e8 fs16 e d4 e8 fs16 e d4 | a'8 b16 a d,4 a'8 b16 a d,4
+      \footnote #'(2 . 0.2) "柳琴 25 ~ 29 小节第二次反复时高八度演奏" e8 r r e e r r e d r r d d r r d
+      \tuplet 3/2 { e8 fs e } d4 \tuplet 3/2 { e8 fs e } d4 | \tuplet 3/2 { a'8 b a } d,4 \tuplet 3/2 { a'8 b a } d,4
       e8 r fs r e r fs r
     }
   }
@@ -268,8 +285,8 @@ pipa = \relative d' {
     d4 r \comotifD
   }
   \relative d { e4 r4 e4 r4 \mC \mD \mE \mA }
-  \relative d'' { \climaxBt }
-  \relative d' { \scc }
+  \relative d'' { \climaxAt }
+  \relative d'' { \sc }
   \relative d {
     fs2.:32\fermata r4
     d'2 e4 d cs2 d4 cs a2.:32 b8 a
@@ -305,8 +322,8 @@ guzhengI = \relative d'' {
   \relative d' {
     \repeat unfold 6 { <e e'>4 r4 }
   }
-  \relative d'' { \climaxAt }
-  \relative d'' { \sc }
+  \relative d'' { \climaxBt }
+  \relative d' { \scc }
   \relative d' {
     d2.:32\fermata r4
     d2 e4 d e2 fs4 e d2.:32 e8 d
@@ -328,7 +345,7 @@ guzhengII = \relative d {
     d4. e8 d4. e8 fs4. a8 d,4. a'8
     d,4. fs8 a,4. d8 e4. e8 fs2
     \relative d { d8. e16 fs8 a e16 fs e d b8 a e'16 fs e d b8 a d2:32 }
-    e8 fs16 e d4 e8 fs16 e d4 | a'8 b16 a d,4 a'8 b16 a d,4
+    \tuplet 3/2 { e8 fs e } d4 \tuplet 3/2 { e8 fs e } d4 | \tuplet 3/2 { a'8 b a } d,4 \tuplet 3/2 { a'8 b a } d,4
     e8 r r e e r r e d r r d d r r d
     e r a r e r a r
   }
@@ -397,7 +414,7 @@ guqinActual = \relative d {
   }
   \sanbanOff
   R1*62
-  \relative d' { << \thrice { \addHarmonics { b8 a d4 r4\fermata r4 } } { s1*3-\markup{ 古琴 73 ~ 75 小节休止符的时长要一次比一次长 } }>>}
+  \relative d' { << \addHarmonics { \footnote #'(2 . 1.5) "古琴 73 ~ 75 小节休止符的时长要一次比一次长" b8 a d4 r4\fermata r4 b8 a d4 r4\fermata r4 b8 a d4 r4\fermata r4 } { s1*3 }>>}
   R1*4
   \bar "|."
 }
@@ -430,7 +447,7 @@ numberedFull = #(define-music-function (name mus) (string? ly:music?) #{
                   #})
 
 \book {
-  \bookOutputName "full-numbered"
+  \bookOutputName "总谱"
   \paper {
     short-indent = 1.5\cm
     page-count = 7
@@ -478,7 +495,7 @@ staffFullF = #(define-music-function (name mus) (string? ly:music?) #{
                 #})
 
 \book {
-  \bookOutputName "full-staff"
+  \bookOutputName "总谱（五线谱版）"
   \paper {
     short-indent = 1.5\cm
   }
@@ -524,9 +541,9 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
                         #})
 
 \book {
-  \bookOutputName "part-erhu1"
+  \bookOutputName "二胡 I 分谱"
   \header {
-    subtitle = \markup { \medium "二胡 I 分谱" }
+    subtitle = \markup { "二胡 I 分谱" }
     meter = \markup {
       \fontsize #2 { \bold "1" " =  D" }
       \hspace #1
@@ -545,7 +562,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 }
 
 \book {
-  \bookOutputName "part-erhu2"
+  \bookOutputName "二胡 II 分谱"
   \header {
     subtitle = \markup { \medium "二胡 II 分谱" }
     meter = \markup {
@@ -566,7 +583,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 }
 
 \book {
-  \bookOutputName "part-liuqin"
+  \bookOutputName "柳琴分谱"
   \header {
     subtitle = "柳琴分谱"
     meter = \markup {
@@ -587,7 +604,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 }
 
 \book {
-  \bookOutputName "part-pipa"
+  \bookOutputName "琵琶分谱"
   \header {
     subtitle = "琵琶分谱"
     meter = \markup {
@@ -608,21 +625,21 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 }
 
 \book {
-  \bookOutputName "part-guzheng1"
+  \bookOutputName "古筝 I 分谱"
   \header { subtitle = \markup { \medium "古筝 I 分谱" } }
   \paper { page-count = #1 indent = 0\cm }
   \score { << \numberedPart \guzhengI \liuqinDynamics >> }
 }
 
 \book {
-  \bookOutputName "part-guzheng2"
+  \bookOutputName "古筝 II 分谱"
   \header { subtitle = \markup { \medium "古筝 II 分谱" } }
   \paper { page-count = #1 indent = 0\cm }
   \score { << \numberedPart \guzhengII \liuqinDynamics >> }
 }
 
 \book {
-  \bookOutputName "part-guqin"
+  \bookOutputName "古琴分谱"
   \header {
     subtitle = "古琴分谱"
     meter = \markup {
@@ -643,7 +660,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 }
 
 \book {
-  \bookOutputName "part-piano"
+  \bookOutputName "钢琴分谱"
   \header {
     subtitle = "钢琴分谱"
     meter = ""
