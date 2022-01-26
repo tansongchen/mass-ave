@@ -129,10 +129,10 @@ climax = {
   \twice { s2. s4\sf }
 }
 descent = {
-  s1\> s1^\markup \italic "accel." s2. \tempo 4 = 120 s4
+  s1\> s1*2
 }
 reappear = {
-  s1\mp s1*5^\markup \italic "a tempo" s2. s4\mf s1*5 s1*3^\markup \italic "rit."
+  s1\mp s1*5 s2. s4\mf s1*5 s1*3^\markup \italic "rit."
 }
 epilogA = { \tempo "悠扬地" 4 = 72 s1*7\pp}
 epilogB = { s1*3\> }
@@ -176,7 +176,7 @@ erhuI = {
   }
   \relative d''' { \sc \final }
   \relative d''' {
-    \twice { \motif r2 R1 } \motif r2 R1 R1 R1*3 b1 a d1( d1) \bar "|."
+    \twice { \motif r2 R1 } \motif r2 R1 R1 R1*3 b1:32 a:32 d1:32( d1) \bar "|."
   }
 }
 
@@ -216,7 +216,7 @@ erhuII = {
   \relative d'' {
     \twice { r2 \motif R1 }
     R1 \motif r2 R1
-    R1*3 e1 a d,1( d1) \bar "|."
+    R1*3 e1:32 a:32 d,1:32( d1) \bar "|."
   }
 }
 
@@ -242,7 +242,12 @@ liuqin = \relative d''' {
     { e r a r e r a r }
     { e r a r e r gs r }
   }
-  \comelodyc
+  \relative d' {
+    \twice { e2 fs8 e d e d2 e8 d cs d }
+    e4 r d r
+  }
+  e4 r \comotifC
+  d4 r \comotifD
   e4 r e r \mC \mD \mE \mA
   \climaxT
   \relative d''' { \sc }
