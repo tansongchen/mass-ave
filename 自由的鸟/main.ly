@@ -73,7 +73,7 @@ climaxA = {
 
 climaxAt = {
   \twice { d16 b a8 cs,4 d'16 b a8 cs,4 r cs16 cs cs8 cs4 r }
-  \twice { d'16 d b a d d b a r4 cs,16 cs cs cs }
+  \twice { d'16 d b a d d b a r4 a16 a a a }
 }
 
 climaxB = {
@@ -210,7 +210,7 @@ erhuII = {
     d2.\fermata e16 fs a b a2 b4 a fs a fs e
     d2. e16 fs a b a2 b4 a fs a fs a
     e2. e16 fs a b a2 d4 a fs a fs e
-    d2. e16 fs a b a2 b4 a fs a fs e
+    d2. e16 fs a b a2 fs4 a fs a fs e
     d2. e4 fs4. e8 d2( d1)
   }
   \relative d'' {
@@ -233,7 +233,7 @@ liuqin = \relative d''' {
     d d d d b b b b gs gs gs gs d'2
     d4. fs8 a,4. d8 gs,4. b8 d2
     \relative d' {
-      \footnote #'(2 . 0.2) "柳琴 25 ~ 29 小节第二次反复时高八度演奏" e8 r r e e r r e d r r d d r r d
+      \footnote #'(2 . 0.2) "柳琴 25 ~ 29 小节第二次反复时高八度演奏" e8 r r e e r r e fs r r fs fs r r fs
       \tuplet 3/2 { e8 fs e } d4 \tuplet 3/2 { e8 fs e } d4 | \tuplet 3/2 { a'8 b a } d,4 \tuplet 3/2 { a'8 b a } d,4
       e8 r fs r e r fs r
     }
@@ -274,8 +274,8 @@ pipa = \relative d' {
       d,4. fs8 a,4. d8 e4. e8 fs4 r
     }
     \relative d' { d8. e16 fs8 a e16 fs e d b8 a e'16 fs e d b8 a d2:32 }
-    \relative d {
-      \twice { gs8 r r gs gs8 r r gs b r r b b r r b }
+    \relative d' {
+      \twice { cs8 r r cs cs r r cs d r r d d r r d }
       a r d, r a' r d, r
     }
   }
@@ -294,10 +294,11 @@ pipa = \relative d' {
   \relative d'' { \sc }
   \relative d {
     fs2.:32\fermata r4
-    d'2 e4 d cs2 d4 cs a2.:32 b8 a
-    d2 e4 d b2 cs4 b cs2.:32 d8 cs
-    d2 e4 d cs2 d4 cs a2.:32 b8 a
-    fs2 g4 fs e2 fs4 e fs2.:32 g4 a4. g8 fs2( fs1)
+    fs'2 g4 fs e2 fs4 e d2.:32 e8 d
+    cs2 d4 cs d2 e4 d cs2.:32 d8 cs
+    d2 e4 d e2 fs4 e fs2.:32 g8 fs
+    fs2 g4 fs a2 b4 a
+    a2.:32 b4 a4. b8 a2( a1)
   }
   \relative d' { R1*3 \motifc R1*3 R1*3 d'1:32 cs:32 a1:32( a1) } \bar "|."
 }
@@ -313,7 +314,7 @@ guzhengI = \relative d'' {
     a8 a a a a a a a fs fs fs fs a a a a
     \twice { a a a a e e e e fs fs fs fs a4 r }
     % Bridge
-    \twice { fs8 r r fs fs8 r r fs a r r a a r r a }
+    \twice { a8 r r a a r r a a r r a a r r a }
     \twice { cs r a r }
   }
   \alternative {
@@ -330,12 +331,9 @@ guzhengI = \relative d'' {
   \relative d'' { \climaxBt }
   \relative d' { \scc }
   \relative d' {
-    d2.:32\fermata r4
-    d2 e4 d e2 fs4 e d2.:32 e8 d
-    d2 e4 d e2 fs4 e d2.:32 fs8 e
-    d2 e4 d e2 fs4 e d2.:32 e8 d
-    d2 e4 d cs2 d4 cs
-    a2.:32 b4 cs4. b8 a2( a1)
+    b2.:32\fermata r4
+    \thrice { a2 b4 a a2 b4 a a2.:32 b8 a }
+    d2 e4 d e2 fs4 e fs2.:32 e4 fs4. e8 fs2( fs1)
   }
   \relative d' {
     R1*7 R1*3 g1:32 g:32 fs1:32( fs1) \bar "|."
@@ -351,7 +349,7 @@ guzhengII = \relative d {
     d,4. fs8 a,4. d8 e4. e8 fs2
     \relative d { d8. e16 fs8 a e16 fs e d b8 a e'16 fs e d b8 a d2:32 }
     \tuplet 3/2 { e8 fs e } d4 \tuplet 3/2 { e8 fs e } d4 | \tuplet 3/2 { a'8 b a } d,4 \tuplet 3/2 { a'8 b a } d,4
-    e8 r r e e r r e d r r d d r r d
+    e8 r r e e r r e fs r r fs fs r r fs
     e r a r e r a r
   }
   \alternative {
@@ -367,14 +365,10 @@ guzhengII = \relative d {
   \relative d' { \scct }
   \relative d {
     d,2.:32\fermata r4
-    fs2 g4 fs a2 b4 a
-    fs2.:32 e8 fs
-    fs2 g4 fs g2 a4 g
-    a2.:32 b8 a
-    fs2 g4 fs a2 b4 a
-    fs2.:32 e8 fs
-    a2 b4 a a2 b4 a
-    d,2.:32 e4 fs4. e8 d2( d1)
+    d'2 e4 d e2 fs4 e fs2.:32 g8 fs
+    e2 fs4 e fs2 g4 fs g2.:32 a8 g
+    fs2 g4 fs e2 fs4 e d2.:32 e8 d
+    a'2 b4 a cs2 d4 cs d2.:32 e4 d4. e8 d2( d1)
   }
   \relative d {
     R1*6 \motifc
@@ -419,7 +413,7 @@ guqinActual = \relative d {
   }
   \sanbanOff
   R1*62
-  \relative d' { << \addHarmonics { \footnote #'(2 . 1.5) "古琴 73 ~ 75 小节休止符的时长要一次比一次长" b8 a d4 r4\fermata r4 b8 a d4 r4\fermata r4 b8 a d4 r4\fermata r4 } { s1*3 }>>}
+  \relative d' { << \addHarmonics { \footnote #'(2 . 1.5) "古琴 73 ~ 75 小节休止符的时长要一次比一次长" b8. a16 d4 r4\fermata r4 b8. a16 d4 r4\fermata r4 b8. a16 d4 r4\fermata r4 } { s1*3 }>>}
   R1*4
   \bar "|."
 }
@@ -548,7 +542,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 \book {
   \bookOutputName "二胡 I 分谱"
   \header {
-    subtitle = \markup { "二胡 I 分谱" }
+    subtitle = "二胡 I 分谱"
     meter = \markup {
       \fontsize #2 { \bold "1" " =  D" }
       \hspace #1
@@ -569,7 +563,7 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 \book {
   \bookOutputName "二胡 II 分谱"
   \header {
-    subtitle = \markup { \medium "二胡 II 分谱" }
+    subtitle = "二胡 II 分谱"
     meter = \markup {
       \fontsize #2 { \bold "1" " =  D" }
       \hspace #1
@@ -631,14 +625,50 @@ tuningInstructions = #(define-music-function (mus) (ly:music?) #{
 
 \book {
   \bookOutputName "古筝 I 分谱"
-  \header { subtitle = \markup { \medium "古筝 I 分谱" } }
+  \header {
+    subtitle = "古筝 I 分谱"
+    meter = \markup {
+      \fontsize #2 { \bold "1" " =  D" }
+      \hspace #1
+      \raise #0.2 {
+        "(" "定弦"
+        \raise #0.8 \score {
+          \layout { indent = 0\cm }
+          \tuningInstructions {
+            \relative c, {
+              c d e g a c d f g a c d e g a c d e g a c
+            }
+          }
+        }
+        ")"
+      }
+    }
+  }
   \paper { page-count = #1 indent = 0\cm }
   \score { << \numberedPart \guzhengI \liuqinDynamics >> }
 }
 
 \book {
   \bookOutputName "古筝 II 分谱"
-  \header { subtitle = \markup { \medium "古筝 II 分谱" } }
+  \header {
+    subtitle = "古筝 II 分谱"
+    meter = \markup {
+      \fontsize #2 { \bold "1" " =  D" }
+      \hspace #1
+      \raise #0.2 {
+        "(" "定弦"
+        \raise #0.8 \score {
+          \layout { indent = 0\cm }
+          \tuningInstructions {
+            \relative c, {
+              c d e g a c d e g a c d e g a c d e g a c
+            }
+          }
+        }
+        ")"
+      }
+    }
+  }
   \paper { page-count = #1 indent = 0\cm }
   \score { << \numberedPart \guzhengII \liuqinDynamics >> }
 }
