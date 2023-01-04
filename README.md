@@ -10,11 +10,11 @@ This repository stores the LilyPond source code for Mass Ave Chinese Orchestra. 
 
 You can set up the environment for compiling in two ways:
 
-## 1. Using the Develop Container
+## 1. Using the Development Container
 
-If you have Docker engine installed, you can build the Dockerfile in `.devcontainer` folder and launch a instance of that image. This container will provide you with LilyPond 2.22.1 and all Chinese fonts (思源宋体, 思源黑体 and 霞鹜文楷) that allow you to exactly reproduce PDFs in [Releases](https://github.com/tansongchen/mass-ave/releases).
+You can click the “Open in GitHub Codespaces” button above and instantly launch a development environment in your browser. This environment (as defined in `.devcontainer/`) will provide you with LilyPond 2.22.1 and all Chinese fonts (思源宋体, 思源黑体 and 霞鹜文楷) that allow you to exactly reproduce PDFs in [Releases](https://github.com/tansongchen/mass-ave/releases).
 
-Additionally, if you also have Visual Studio Code installed, it suffices to open this folder in VSCode and run the command "Open Folder in Container".
+Alternatively, if you have Visual Studio Code and Docker installed, you can clone this repository, open the repository folder in VSCode and run the command “Open Folder in Container”.
 
 ## 2. Manual Setup
 
