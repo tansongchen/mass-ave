@@ -18,6 +18,9 @@ sanbanOff = {
   \time 4/4
 }
 
+#(define (log2 num)
+  (log num) / (log 2))
+
 #(define (get-keysig-alt-count alt-alist)
    "Return number of sharps/flats in key sig, (+) for sharps, (-) for flats."
    (if (null? alt-alist)
@@ -249,8 +252,7 @@ numberedMusic =
                  (ly:music-set-property! m 'articulations
                                          (append artics
                                                  (list
-                                                  (make-music 'ArticulationEvent
-                                                              'articulation-type "staccato"
+                                                  (make-articulation 'staccato
                                                               'direction octave-dir
                                                               'duration dur
                                                               'numbered-chord-size 1
@@ -315,7 +317,7 @@ numberedMusic =
                        (ly:pitch-notename grob-pitch) #f))
                   (numbered-rest (ly:event-property event 'numbered-rest))
                   (numbered-order (ly:event-property event 'numbered-order))
-                  (numbered-offset (- (* numbered-order 2.5) 1))
+                  (numbered-offset (- (* numbered-order 3) 1))
                   (numbered-chord-size (ly:event-property event 'numbered-chord-size))
                   (glyph-string
                    ;; check numbered-rest first, because apparently
@@ -386,11 +388,11 @@ numberedMusic =
        (let* ((logduration (log2 duration))
               (descents (min 0 (+ 2 logduration)))
               (step 0.4))
-         (+ -1.5 (* descents step)))
-       (let* ((fontsize 2.5)
+         (+ -1.8 (* descents step)))
+       (let* ((fontsize 3)
               (step 0.3))
          (if (= direction 1)
-             (+ -1.6 (* fontsize (+ 1 numbered-order)) (* 2 padding abs-octave))
+             (+ -2.1 (* fontsize (+ 1 numbered-order)) (* 2 padding abs-octave))
              (+ -1.3 (* fontsize numbered-order))
              )
          )
@@ -413,7 +415,7 @@ numberedMusic =
 
             (cond
               (
-                (equal? "staccato" articulation-type)
+                (equal? 'staccato articulation-type)
                 (let*
                  (
                    (padding 0.3)
